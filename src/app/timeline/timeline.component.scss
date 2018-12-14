@@ -1,0 +1,35 @@
+
+nav {
+  border-bottom: solid 1px white;
+  background: #25303B;
+  color: white;
+  & h1 {
+    text-transform: capitalize;
+    margin-bottom: 0.1em;
+    margin-top: 0.1em;
+    padding-top: 0;
+  }
+  & h2 {
+    font-size: 1.4em;
+  }
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0px;
+  & li {
+    padding-left: 0px;
+  }
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+input.big {
+  width: 100%;
+  height: 1.8em;
+  min-height: 1.8em;
+  font-size: 1.8em;
+  margin-top: 0.5em;
+}
