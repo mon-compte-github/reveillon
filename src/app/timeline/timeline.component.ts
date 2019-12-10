@@ -35,49 +35,53 @@ export class TimelineComponent implements OnInit {
 		private databaseService: DatabaseService) {}
 
 	ngOnInit(): void {
+		
+		this.databaseService.whenReady().then(() => {
 
-		// qui est connecté ? sera affiché sur la page
-		this.sessionService.get().subscribe((qui) => {
-			// sauvegarde de l'heure de dernière connexion
-			this.databaseService.lastConnected(qui).subscribe((session) => {
-				this.lastConnected = session.timestamp;
-				this.databaseService.saveSession(session);
+			// qui est connecté ? sera affiché sur la page
+			this.sessionService.get().subscribe((qui) => {
+				// sauvegarde de l'heure de dernière connexion
+				this.databaseService.lastConnected(qui).subscribe((session) => {
+					this.lastConnected = session.timestamp;
+					this.databaseService.saveSession(session);
+				});
+				this.qui = qui;
 			});
-			this.qui = qui;
-		});
 
-		// récupération des tranches horaires
-		this.databaseService.getTranches().subscribe((result) => {
+			// récupération des tranches horaires
+			this.databaseService.getTranches().subscribe((result) => {
 
-			// arrivage d'un nouveau snapshot
-			this.tranches = result;
-			
-			// actualisation des éléments
-			this.databaseService.getElements().subscribe((result) => {
+				// arrivage d'un nouveau snapshot
+				this.tranches = result;
+				
+				// actualisation des éléments
+				this.databaseService.getElements().subscribe((result) => {
 
-				this.tranches.forEach(item => item.elements = []);
+					this.tranches.forEach(item => item.elements = []);
 
-				// réaccrochage des éléments
-				// à la tranche horaire qui correspond
-				result.forEach(item => {
-					// recherche de la tranche horaire qui correspond
-					let filtered = this.tranches.filter(t => t.title == item.quand);
-					if(filtered.length == 1) {
-						// trouvé ? on ajoute l'élément à la tranche horaire
-						filtered[0].elements.push(item);
-					} else {
-						console.error('la tranche ' + item.quand + ' n\'existe pas ?!?');
-					}
+					// réaccrochage des éléments
+					// à la tranche horaire qui correspond
+					result.forEach(item => {
+						// recherche de la tranche horaire qui correspond
+						let filtered = this.tranches.filter(t => t.title == item.quand);
+						if(filtered.length == 1) {
+							// trouvé ? on ajoute l'élément à la tranche horaire
+							filtered[0].elements.push(item);
+						} else {
+							console.error('la tranche ' + item.quand + ' n\'existe pas ?!?');
+						}
+					});
+
+				}, (error) => {
+					window.alert('Erreur de récupération des éléments' + "\n" + error);
 				});
 
 			}, (error) => {
-				window.alert('Erreur de récupération des éléments' + "\n" + error);
+				window.alert('Erreur de récupération des tranches' + "\n" + error);
 			});
 
-		}, (error) => {
-			window.alert('Erreur de récupération des tranches' + "\n" + error);
 		});
-		
+
 	}
 
 	//

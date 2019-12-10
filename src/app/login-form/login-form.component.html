@@ -2,8 +2,8 @@
 <div class="login-page">
   <div class="form">
     <form class="login-form" (ngSubmit)="onSubmit()">
-      <input name="username" type="text" placeholder="Dis moi qui tu es ..." autocapitalize="none" [(ngModel)]="username"/>
-      <button type="submit">... et passe à la suite ;-)</button>
+      <input [disabled]="!connected" name="username" type="text" placeholder="Dis moi qui tu es ..." autocapitalize="none" [(ngModel)]="username"/>
+      <button [disabled]="!connected || !username || username.length == 0" type="submit">... et passe à la suite ;-)</button>
     </form>
   </div>
 </div>

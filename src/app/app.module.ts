@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { AppComponent } from './app.component';
 import { LoginFormComponent } from './login-form/login-form.component';
@@ -70,6 +71,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
 
     AngularFireModule.initializeApp(environment.config_firebase),
+    AngularFireAuthModule,
     AngularFirestoreModule
   ],
   providers: [
