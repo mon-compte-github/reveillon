@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/reveillon",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -30,8 +31,15 @@
               "node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           },
+          "allowedCommonJsDependencies": [ "firebase/app" ],
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
